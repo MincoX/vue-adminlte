@@ -366,6 +366,157 @@ export default {
       },
     ]
   },
+  Perm: function () {
+    return [{
+        key: 'name',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("名称"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '权限名称不能为空'
+          }
+        },
+      },
+      {
+        key: 'perm',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("权限"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '权限不能为空'
+          }
+        },
+      },
+    ]
+  },
+  Role: function () {
+    return [{
+        key: 'name',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("名称"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '角色名称不能为空'
+          }
+        },
+      },
+      {
+        key: 'role',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("角色"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '角色不能为空'
+          }
+        },
+      },
+    ]
+  },
+  UpdateRole: function () {
+    return [{
+        key: 'name',
+        type: 'list',
+        options: ['Male'],
+        templateOptions: {
+          wrapperClasses: {
+            'modal-li': true
+          }
+        }
+      },
+      {
+        key: 'name1',
+        type: 'list',
+        options: ['fmale'],
+        templateOptions: {
+          wrapperClasses: {
+            'modal-li': true
+          }
+        }
+      },
+    ]
+  },
+  AdminAdd: function () {
+    return [{
+        key: 'name',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("名称"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '角色名称不能为空'
+          }
+        },
+      },
+      {
+        key: 'role',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("角色"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '角色不能为空'
+          }
+        },
+      },
+    ]
+  },
+  UpdateAdmin: function () {
+    return [{
+        key: 'name',
+        type: 'list',
+        options: ['Male'],
+        templateOptions: {
+          wrapperClasses: {
+            'modal-li': true
+          }
+        }
+      },
+      {
+        key: 'name1',
+        type: 'list',
+        options: ['fmale'],
+        templateOptions: {
+          wrapperClasses: {
+            'modal-li': true
+          }
+        }
+      },
+    ]
+  },
   example: function () {
     return [{
         key: 'sex',

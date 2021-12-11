@@ -23,6 +23,44 @@ module.exports = {
     delete: {
       path: '/api/user/delete'
     },
+    activate: {
+      path: '/api/user/delete'
+    },
+    disable: {
+      path: '/api/user/delete'
+    },
+    resetPwd: {
+      path: '/api/user/delete'
+    }
+  },
+  safe: {
+    addPerm: {
+      path: '/api/perm/add'
+    },
+    updatePerm: {
+      path: '/api/perm/add'
+    },
+    deletePerm: {
+      path: '/api/perm/add'
+    },
+    addRole: {
+      path: '/api/perm/add'
+    },
+    updateRole: {
+      path: '/api/perm/add'
+    },
+    deleteRole: {
+      path: '/api/perm/add'
+    },
+    list: {
+      path: '/api/user/list'
+    },
+    update: {
+      path: '/api/user/update'
+    },
+    delete: {
+      path: '/api/user/delete'
+    },
   },
   organization: {
     list: {

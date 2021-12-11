@@ -271,3 +271,10 @@ export default {
   },
 };
 </script>
+
+
+<style lang='scss'>
+.modal-li {
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+</style>

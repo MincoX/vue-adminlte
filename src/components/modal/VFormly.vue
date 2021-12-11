@@ -14,7 +14,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="show=false">Close</button>
-          <button type="button" class="btn btn-primary" @click="onsubmit">Save changes</button>
+          <button type="button" class="btn btn-primary" @click="onsubmit()">Save changes</button>
         </div>
       </div>
     </div>
