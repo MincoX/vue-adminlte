@@ -22,9 +22,7 @@
           </div>
         </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
   </div>
 </template>
 
@@ -159,10 +157,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .modal {
-  border: 1px solid red;
   background-color: rgba(0, 0, 0, 0.8);
+  .modal-dialog {
+    top: 5%;
+  }
 }
 .preview-bg {
   position: fixed;

@@ -6,8 +6,10 @@ Vue.use(VueRouter)
 import Index from '@/Index.vue'
 
 import Login from '@/views/user/Login.vue'
-import UserPerm from '@/views/user/UserPerm.vue'
-import UserList from '@/views/user/UserList.vue'
+import UserPerm from '@/views/user/Perm.vue'
+import UserList from '@/views/user/List.vue'
+
+import ClassList from '@/views/class/List.vue'
 
 import Vformly from '@/views/test/Vformly.vue'
 
@@ -30,6 +32,17 @@ const routes = [
         path: 'perm',
         name: 'perm',
         component: UserPerm,
+      },
+    ],
+  },
+  {
+    path: '/class',
+    component: Index,
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: ClassList,
       },
     ],
   },

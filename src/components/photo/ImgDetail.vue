@@ -1,16 +1,14 @@
 <template>
-  <div>
+  <div class="img-modal">
     <div class="user-panel mt-3 pb-3 mb-3 d-flex" @click="show=true">
-      <div class="image"><img :src="imgUri==''?'/static/dist/img/user2-160x160.jpg':imgUri" alt="User Image" class="img-circle elevation-2"></div>
+      <div class="image"><img :src="imgUri==''?'/static/dist/img/user2-160x160.jpg':imgUri" alt="User Image" class="img-circle elevation-2 img-cursor-pointer"></div>
     </div>
-
-    <div class="modal fade show" id="modal-default" style="display: block;" aria-modal="true" v-if="show" @click="show=false">
+    <div class="modal fade show img-cursor-pointer" id="modal-default" style="display: block;" aria-modal="true" v-if="show" @click="show=false">
       <div class="modal-dialog">
         <img class="img-fluid mb-3 img-detail" :src="imgUri==''?'/static/dist/img/user2-160x160.jpg':imgUri" alt="Photo">
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -44,7 +42,10 @@ export default {
   top: 25%;
   transform: translate(-50%, -50%);
 }
-.img-detail{
-    border-radius: 10%;
+.img-cursor-pointer:hover {
+  cursor: pointer;
+}
+.img-detail {
+  border-radius: 10%;
 }
 </style>

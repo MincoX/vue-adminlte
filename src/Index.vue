@@ -203,6 +203,23 @@
               <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
+                  班级管理
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/class/list" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>班级列表</p>
+                  </router-link>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
                   demo
                   <i class="right fas fa-angle-left"></i>
                 </p>
@@ -275,6 +292,6 @@ export default {
 
 <style lang='scss'>
 .modal-li {
-  border-bottom: 1px solid rgba(0,0,0,.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 </style>

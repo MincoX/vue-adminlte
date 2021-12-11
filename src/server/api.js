@@ -33,6 +33,11 @@ module.exports = {
       path: '/api/user/delete'
     }
   },
+  class: {
+    add: {
+      path: '/api/user/delete'
+    }
+  },
   safe: {
     addPerm: {
       path: '/api/perm/add'

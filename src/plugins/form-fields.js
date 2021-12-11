@@ -436,6 +436,33 @@ export default {
       },
     ]
   },
+  Class: function () {
+    return [{
+        key: 'name',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("名称"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '角色名称不能为空'
+          }
+        },
+      },
+      {
+        key: 'timerange',
+        type: 'input',
+        required: true,
+        templateOptions: {
+          atts: {id: 'reservationtime'}
+        },
+      },
+    ]
+  },
   UpdateRole: function () {
     return [{
         key: 'name',
@@ -526,6 +553,24 @@ export default {
           label: 'Sex'
         }
 
+      },
+      {
+        key: 'sex',
+        type: 'select',
+        options: ['Male', 'Female', 'Other'],
+        templateOptions: {
+          label: 'Sex',
+          placeholder: 'Pick one...'
+        }
+      },
+      {
+        key: 'adult',
+        type: 'list',
+        options: ['Yes', 'No'],
+        templateOptions: {
+          label: 'Over 18 years old?',
+          inputType: 'radio'
+        }
       },
       {
         key: 'status',
