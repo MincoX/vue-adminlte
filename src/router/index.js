@@ -11,6 +11,8 @@ import UserList from '@/views/user/List.vue'
 
 import ClassList from '@/views/class/List.vue'
 
+import DeviceList from '@/views/device/List.vue'
+
 import Vformly from '@/views/test/Vformly.vue'
 
 const routes = [
@@ -43,6 +45,17 @@ const routes = [
         path: 'list',
         name: 'list',
         component: ClassList,
+      },
+    ],
+  },
+  {
+    path: '/device',
+    component: Index,
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: DeviceList,
       },
     ],
   },

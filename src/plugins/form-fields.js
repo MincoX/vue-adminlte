@@ -1,3 +1,5 @@
+import validators from "@/plugins/form-validators";
+
 export default {
   UserUpdate: function () {
     return [{
@@ -458,7 +460,40 @@ export default {
         type: 'input',
         required: true,
         templateOptions: {
-          atts: {id: 'reservationtime'}
+          atts: {
+            id: 'reservationtime'
+          }
+        },
+      },
+    ]
+  },
+  Device: function () {
+    return [{
+        key: "ip",
+        type: "input",
+        templateOptions: setOptions("ip地址", "127.0.0.1"),
+        required: true,
+        validators: {
+          valCheck: {
+            expression: validators.validIpAddress,
+            message: "ip地址格式错误",
+          },
+        },
+      },
+      {
+        key: 'port',
+        type: 'input',
+        required: true,
+        templateOptions: setOptions("port", "8080"),
+        validators: {
+          valCheck: {
+            expression(field, model, next) {
+              next(
+                model[field.key].length > 0
+              );
+            },
+            message: '端口号不能为空'
+          }
         },
       },
     ]

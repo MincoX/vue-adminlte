@@ -38,6 +38,11 @@ module.exports = {
       path: '/api/user/delete'
     }
   },
+  device: {
+    add: {
+      path: '/api/user/delete'
+    }
+  },
   safe: {
     addPerm: {
       path: '/api/perm/add'

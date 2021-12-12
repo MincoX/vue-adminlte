@@ -1,11 +1,11 @@
 <template>
-  <div class="modal fade show" id="modal-default" style="padding-right: 17px; display: block" aria-modal="true" role="dialog" v-if="show">
+  <div class="modal fade show" id="modal-default" style="padding-right: 16px; display: block;" aria-modal="true" role="dialog" v-if="show">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">用户信息</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" @click="show=false">×</span>
+            <span aria-hidden="true" @click="show = false">×</span>
           </button>
         </div>
         <div class="modal-body">
@@ -16,19 +16,32 @@
             </div>
             <p class="text-muted text-center">Software Engineer</p>
             <form>
-              <formly-form :form="form" :model="model" :fields="fields"></formly-form>
+              <formly-form :form="form" :model="model" :fields="fields" ref="credentials"></formly-form>
             </form>
-            <a href="#" class="btn btn-primary btn-block"><b>提交</b></a>
+            <a href="#" class="btn btn-primary btn-block" @click="formValid()"><b>提交</b></a>
           </div>
         </div>
+
+        <!-- <div class="modal-body">
+          <formly-form :form="form" :model="model" :fields="fields" ref="credentials" />
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="show=false">Close</button>
+          <button type="button" class="btn btn-primary" @click="onsubmit()">Save changes</button>
+        </div> -->
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import VFormly from "@/components/modal/VFormly.vue";
+import API from "@/server/api";
+import validators from "@/plugins/form-validators";
+
 export default {
+  name: "userinfo",
+  inject: ["reload"],
   props: {
     userData: {
       type: Object,
@@ -39,12 +52,11 @@ export default {
       default: "",
     },
   },
-  components: {
-    VFormly,
-  },
   data() {
     return {
       show: false,
+
+      // 图片
       files: [
         {
           url: "https://pic3.zhimg.com/v2-058f646c41b55206f8110489d82fa103_is.jpg",
@@ -57,52 +69,58 @@ export default {
       isPreview: false,
       type: 0, // 0 预览模式 1 列表模式 2 预览模式 + 上传按钮
 
+      // form
       form: {},
       model: {
         name: "",
+        identity: "",
         email: "",
-        password: "",
       },
       fields: [
         {
           key: "name",
           type: "input",
           required: true,
-          templateOptions: {
-            label: "姓名",
-            type: "name",
+          templateOptions: this.setOptions("用户名", "请输入用户名"),
+          validators: {
+            valCheck: {
+              expression(field, model, next) {
+                next(model[field.key].length > 0);
+              },
+              message: "不能输入空值",
+            },
           },
         },
         {
           key: "identity",
           type: "input",
           required: true,
-          templateOptions: {
-            label: "编号",
-            type: "name",
+          templateOptions: this.setOptions("编号", "请输入编号"),
+          validators: {
+            valCheck: {
+              expression(field, model, next) {
+                next(model[field.key].length > 0);
+              },
+              message: "不能输入空值",
+            },
           },
-        },
-        {
-          key: "password",
-          type: "input",
-          templateOptions: {
-            label: "密码",
-            type: "password",
-          },
-          required: true,
-          validators: {},
         },
         {
           key: "email",
           type: "input",
-          templateOptions: {
-            label: "邮箱",
-            type: "email",
-          },
+          templateOptions: this.setOptions("邮箱", "请输入邮箱", "email"),
           required: true,
-          validators: {},
+          validators: {
+            valCheck: {
+              expression: validators.validEmail,
+              message: "邮箱格式错误",
+            },
+          },
         },
       ],
+      
+      method: "",
+      apiObj: {},
     };
   },
   watch: {
@@ -112,31 +130,57 @@ export default {
     },
   },
   methods: {
+    formValid() {
+      this.$refs.credentials
+        .validate()
+        .then(() => {
+          if (!this.form.$valid) return;
+          this.submit();
+        })
+        .catch((e) => {});
+    },
+    submit() {
+      this.show = false;
+      // if (this.method == "post") {
+      //   this.$req
+      //     .post(this.apiObj.path, JSON.parse(JSON.stringify(this.model)))
+      //     .then((resp) => {
+      //       if (resp.code == 1) {
+      //         this.reload();
+      //       }
+      //     });
+      // } else {
+      //   this.$req
+      //     .fetch(this.apiObj.path, this.model, { successNotify: true })
+      //     .then((res) => {
+      //       if (resp.code == 1) {
+      //         this.reload();
+      //       }
+      //     });
+      // }
+    },
+
+    // 图片
     oversize(file) {
       console.log("oversize");
       console.log("filesize:" + file.size / 1024 + "KB");
     },
-
     afterRead(file) {
       console.log("after-read");
       console.log(file);
       console.info("request", this.uploadRequest);
     },
-
     beforeRemove(index, file) {
       console.log(index, file);
       return true;
     },
-
     preview(index, file) {
       this.previewIMG = file.url;
       this.isPreview = true;
     },
-
     exceed() {
       alert(`只能上传${this.limit}张图片`);
     },
-
     beforeRead(files) {
       console.log("before-read");
       for (let i = 0, len = files.length; i < len; i++) {
@@ -149,13 +193,46 @@ export default {
 
       return true;
     },
-
     closePreview() {
       this.isPreview = false;
+    },
+
+    setOptions(label, placeholder, type) {
+      return {
+        label: label,
+        atts: {
+          type: type,
+          placeholder: placeholder,
+        },
+        onBlur: function (e) {
+          let isOK = !Boolean(this.form.$errors[this.field.key].valCheck);
+          if (isOK) {
+            this.field.templateOptions.classes = {
+              "is-valid": true,
+              "is-warning": false,
+              "is-invalid": false,
+            };
+          } else {
+            this.field.templateOptions.classes = {
+              "is-valid": false,
+              "is-warning": false,
+              "is-invalid": true,
+            };
+          }
+        },
+        onFocus: function () {
+          this.field.templateOptions.classes = {
+            "is-valid": false,
+            "is-warning": true,
+            "is-invalid": false,
+          };
+        },
+      };
     },
   },
 };
 </script>
+
 
 <style scoped lang="scss">
 .modal {
@@ -163,30 +240,5 @@ export default {
   .modal-dialog {
     top: 5%;
   }
-}
-.preview-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  overflow: auto;
-}
-.dialog img {
-  display: block;
-  margin: auto;
-  margin-top: 10vh;
-}
-.close-preview {
-  position: fixed;
-  top: 2vh;
-  left: 10vw;
-  transform: translateX(-50%);
-  font-size: 20px;
-}
-.img-box {
-  width: 30%;
-  margin: 0 auto;
 }
 </style>
