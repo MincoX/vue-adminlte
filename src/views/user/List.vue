@@ -398,18 +398,19 @@
                       </a>
                     </td>
                   </tr>
-                  
+
                 </tbody>
               </table>
             </div>
             <div class="card-footer clearfix">
-              <ul class="pagination pagination-sm m-0 float-right">
+              <Pagination :page-index="currentPage" :total="userCount" :page-size="pageSize" @change="pageChange" />
+              <!-- <ul class="pagination pagination-sm m-0 float-right">
                 <li class="page-item"><a class="page-link" href="#">«</a></li>
                 <li class="page-item"><a class="page-link" href="#">1</a></li>
                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item"><a class="page-link" href="#">»</a></li>
-              </ul>
+              </ul> -->
             </div>
           </div>
         </div>
@@ -421,21 +422,42 @@
 <script>
 import UserInfo from "@/components/modal/UserInfo.vue";
 import ImgDetail from "@/components/photo/ImgDetail.vue";
+import Pagination from "@/components/page/Pagination.vue";
 
 export default {
   components: {
+    Pagination,
     UserInfo,
     ImgDetail,
   },
   data() {
     return {
       userData: null,
+
+      // 分页属性
+      pageDatas: null,
+      totalCount: 0,
+      pageSize: 10,
+      currentPage: 1,
     };
   },
   methods: {
     initUserData: function (data) {
       this.userData = data;
     },
+    getUsers() {
+      this.$req
+        .fetch(API.user.list.path, {
+          pageSize: this.pageSize,
+          currentPage: this.currentPage,
+        })
+        .then((resp) => {
+          if (resp.code == 200) {
+            this.pageDatas = resp.data.users;
+            this.totalCount = resp.data.totalCount;
+          }
+        });
+    },
   },
-}
+};
 </script>
